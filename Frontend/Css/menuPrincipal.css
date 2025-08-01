@@ -1,7 +1,9 @@
 body{
     background-image: url("../Img/Fondo de brazil.png");
-    background-repeat: no-repeat;   
-    background-size: 100%;    
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;  
 }
 
 .botonInicial{
@@ -9,12 +11,14 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    background-attachment: fixed;  
 }
 
 .botonInicial img{
     display: block;
     width: 100%;
     height: auto;
+    background-attachment: fixed;  
 }
 
 .botonInicial a {
@@ -27,12 +31,14 @@ body{
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     text-decoration:  none;
+    background-attachment: fixed;  
 }
 
 .botonOpciones img{
      display: block;
     width: 17%;
     height: auto;
+    background-attachment: fixed;  
 }
 
 .botonOpciones p {
@@ -44,4 +50,5 @@ body{
     font-size: 34px;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    background-attachment: fixed;  
 }

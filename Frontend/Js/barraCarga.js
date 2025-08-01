@@ -1,7 +1,7 @@
 const LoadBar=() =>{
 const progressBar = document.querySelector(".progress-bar");
 let width = 0;
-const interval = setInterval (animate, 20);
+const interval = setInterval (animate, 50);
 
 
 function animate (){
