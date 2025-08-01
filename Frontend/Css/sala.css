@@ -1,0 +1,60 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background-image: url("../Img/FondoJugadorSala.png");
+    background-repeat: no-repeat;   
+    background-size: 100%;    
+}
+
+.salaJugadores{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.salaJugadores h2{
+    position:  absolute;
+    margin-top: -116%;
+    margin-left: 40%;
+    color: white;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.cantidadJugadores{
+    position: absolute;
+    margin-top: -98%;
+    margin-left: 10%;
+}
+
+.cantidadJugadores h3{
+    color: white;
+    font-size: 25px;
+}
+
+.carta{
+    width: 40px;
+    margin: 12px;
+    height: 30px;
+    background-color: #2EEF51;
+    border-color: black;
+    text-align: center;
+    color: black;
+    font-weight: bolder;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.cartaFlex{
+    display: flex;
+}
+
+#inputs-jugadores{
+    position:  absolute;
+}
+
+
+
