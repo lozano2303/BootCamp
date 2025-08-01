@@ -25,6 +25,7 @@ body{
 }
 
 .cantidadJugadores{
+    z-index: 20;
     position: absolute;
     margin-top: -98%;
     margin-left: 10%;
@@ -54,7 +55,39 @@ body{
 
 #inputs-jugadores{
     position:  absolute;
+    margin-top: 22%;
+    margin-left:34%;
+    background-attachment: fixed;
+}
+
+#inputs-jugadores input{
+    width: 300px;
+    background-attachment: fixed;
+
+}
+
+#inputs-jugadores label {
+    color: white;
+    background-attachment: fixed;
+}
+
+.inputLabel{
+    display: flex;
+    gap: 12px;
 }
 
 
+.inputLabel label{
+    margin-top: 12px;
+}
+
+.trasparencia{
+    position: absolute;
+    z-index: 1;
+    margin-top: -105%;
+    margin-left: 5%;
+    width: 90%;
+    height: 87%;
+  background-color: rgba(32, 32, 51, 0.719);
+}
 

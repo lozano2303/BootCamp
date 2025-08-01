@@ -22,15 +22,15 @@ function crearInputsJugadores(cantidad) {
     // Crea un nuevo contenedor
     container = document.createElement('div');
     container.id = 'inputs-jugadores';
-    container.className = 'container mt-4';
 
     for (let i = 1; i <= cantidad; i++) {
         const inputDiv = document.createElement('div');
         inputDiv.className = 'mb-3';
         inputDiv.innerHTML = `
+        <div class="inputLabel" >
             <label for="jugador${i}" class="form-label">Nombre del jugador ${i}:</label>
             <input type="text" class="form-control" id="jugador${i}" name="jugador${i}">
-            
+        <div>
         `;
         container.appendChild(inputDiv);
     }
