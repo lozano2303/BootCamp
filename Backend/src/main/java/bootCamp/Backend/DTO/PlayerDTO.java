@@ -4,6 +4,8 @@ public class PlayerDTO {
 
     private String playerName;
 
+    public PlayerDTO(){}
+
     public PlayerDTO(String playerName) {
         this.playerName = playerName;
     }
