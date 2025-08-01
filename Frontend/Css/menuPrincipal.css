@@ -39,21 +39,30 @@ body{
     background-attachment: fixed;  
 }
 
+.botonOpciones{
+ position: absolute;
+    top: 4%;
+    left: 6%;
+    transform: translate(-50%,-50%);
+    background-attachment: fixed;  
+}
+   
 .botonOpciones img{
-     display: block;
-    width: 17%;
+    display: block;
+    width: 110%;
     height: auto;
     background-attachment: fixed;  
 }
 
 .botonOpciones p {
     position: absolute;
-    top: 2%;
-    left: 9%;
+    top: 10%;
+    left: 54%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 34px;
+    font-size: 20px;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     background-attachment: fixed;  
+    
 }
