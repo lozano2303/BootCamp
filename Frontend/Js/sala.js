@@ -1,4 +1,3 @@
-
 //Obtención de cartas 
 const cartas = document.querySelectorAll("#cartaSeleccion");
 
@@ -35,6 +34,6 @@ function crearInputsJugadores(cantidad) {
         container.appendChild(inputDiv);
     }
 
-    // Agrega el contenedor al body (puedes cambiar la ubicación si lo prefieres)
-    document.body.appendChild(container);
-}   
+    // Agrega el contenedor dentro de .salaJugadores
+    document.querySelector('.salaJugadores').appendChild(container);
+}
