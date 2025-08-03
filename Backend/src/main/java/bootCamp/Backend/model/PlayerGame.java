@@ -20,7 +20,7 @@ public class PlayerGame implements Serializable{
     @ManyToOne
     @MapsId("playerID")
     @JoinColumn(name="playerID", nullable=false)
-    private Player playerID; 
+    private Player playerID;
 
     @ManyToOne
     @MapsId("gameID")
@@ -30,17 +30,13 @@ public class PlayerGame implements Serializable{
     @Column(name="score")
     private int score;
 
-    @Column(name="position")
-    private int position;
-
     public PlayerGame(){}
 
-    public PlayerGame(Player_GameID player_GameID, Player playerID, Game gameID, int score, int position) {
+    public PlayerGame(Player_GameID player_GameID, Player playerID, Game gameID, int score) {
         this.player_GameID = player_GameID;
         this.playerID = playerID;
         this.gameID = gameID;
         this.score = score;
-        this.position = position;
     }
 
     public Player_GameID getPlayer_GameID() {
@@ -74,16 +70,4 @@ public class PlayerGame implements Serializable{
     public void setScore(int score) {
         this.score = score;
     }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    
-
-    
 }

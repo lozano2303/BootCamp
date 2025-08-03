@@ -23,7 +23,7 @@ public class Game implements Serializable{
     @Column(name="gameTime", nullable=false)
     private Time gameTime;
 
-    @Column(name="winner", length=15)
+    @Column(name="winner", length=20)
     private String winner;
 
 

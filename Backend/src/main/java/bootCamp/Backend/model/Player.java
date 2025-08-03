@@ -14,22 +14,17 @@ public class Player {
     @Column(name="playerID")
     private int playerID;
 
-    @Column(name="playerName", length=15, nullable=false)
+    @Column(name="player_name", length=20, nullable=false)
     private String playerName;
 
     public Player () {}
 
-    public Player(int playerID, String playerName) {
-        this.playerID = playerID;
+    public Player(String playerName) {
         this.playerName = playerName;
     }
 
     public int getPlayerID() {
         return playerID;
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
     }
 
     public String getPlayerName() {

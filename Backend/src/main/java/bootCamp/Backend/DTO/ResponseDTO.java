@@ -7,9 +7,9 @@ public class ResponseDTO {
 
     public ResponseDTO(){}
 
-    public ResponseDTO(String message, String status) {
-        this.message = message;
+    public ResponseDTO(String status,String message) {
         this.status = status;
+        this.message = message;
     }
 
     public String getStatus() {
@@ -27,7 +27,4 @@ public class ResponseDTO {
     public void setMessage(String message) {
         this.message = message;
     }
-
-
-
 }
