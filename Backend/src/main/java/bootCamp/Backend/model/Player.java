@@ -20,6 +20,11 @@ public class Player {
     public Player () {}
 
     public Player(String playerName) {
+    this.playerName = playerName;
+    }
+
+    public Player(int playerID, String playerName) {
+        this.playerID = playerID;
         this.playerName = playerName;
     }
 
