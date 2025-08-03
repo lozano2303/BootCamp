@@ -34,6 +34,29 @@ function crearInputsJugadores(cantidad) {
         container.appendChild(inputDiv);
     }
 
+    // Agrega el botón "Jugar" si hay al menos 2 jugadores
+    if (cantidad >= 2) {
+        const btnDiv = document.createElement('div');
+        btnDiv.style.display = "flex";
+        btnDiv.style.justifyContent = "center";
+        btnDiv.style.marginTop = "20px";
+        btnDiv.innerHTML = `
+            <button id="btnJugar" style="
+                background: #2EEF51;
+                color: #222;
+                font-weight: bold;
+                border: 2px solid #222;
+                border-radius: 8px;
+                padding: 8px 32px;
+                font-size: 1.2rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                cursor: pointer;
+                transition: background 0.2s;
+            ">Jugar</button>
+        `;
+        container.appendChild(btnDiv);
+    }
+
     // Agrega el contenedor dentro de .salaJugadores
     document.querySelector('.salaJugadores').appendChild(container);
 }

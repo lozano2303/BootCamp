@@ -11,58 +11,108 @@ body{
     background-attachment: fixed;  
 }
 
-.botonInicial{
+/* Botón JUGAR centrado y responsive */
+.botonInicial {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background-attachment: fixed;  
+    width: 320px;
+    max-width: 80vw;
+    text-align: center;
 }
 
-.botonInicial img{
+.botonInicial img {
     display: block;
-    width: 100%;
+    width: 115%;
     height: auto;
-    background-attachment: fixed;  
 }
 
 .botonInicial a {
     position: absolute;
     top: 50%;
-    left: 35%;
+    left: 49%; /* SIEMPRE 50% */
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 34px;
+    font-size: 2.2rem;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    text-decoration:  none;
-    background-attachment: fixed;  
+    text-decoration: none;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
 }
 
-.botonOpciones{
- position: absolute;
+/* Botón Opciones responsive */
+.botonOpciones {
+    position: absolute;
     top: 4%;
     left: 6%;
     transform: translate(-50%,-50%);
-    background-attachment: fixed;  
+    width: 160px;
+    max-width: 40vw;
+    min-width: 90px;
 }
-   
-.botonOpciones img{
+
+.botonOpciones img {
     display: block;
-    width: 110%;
+    width: 150%;
     height: auto;
-    background-attachment: fixed;  
+    margin-left: 12%;
 }
 
 .botonOpciones p {
     position: absolute;
-    top: 10%;
-    left: 54%;
+    top: 50%;
+    left: 85%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    background-attachment: fixed;  
-    
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+    .botonInicial {
+        width: 220px;
+        max-width: 95vw;
+    }
+    .botonInicial a {
+        font-size: 1.3rem;
+        margin-left: -15%;
+    }
+    .botonOpciones {
+        width: 100px;
+        max-width: 60vw;
+        left: 38%;
+        top: 6%;
+    }
+    .botonOpciones p {
+        font-size: 0.9rem;
+        margin-left: 20%;
+    }
+}
+
+/* Responsive para tablet */
+@media (max-width: 900px) {
+    .botonInicial {
+        width: 260px;
+        max-width: 90vw;
+    }
+    .botonInicial a {
+        font-size: 1.7rem;
+    }
+    .botonOpciones {
+        width: 120px;
+        max-width: 50vw;
+        left: 12%;
+        top: 5%;
+    }
+    .botonOpciones p {
+        font-size: 1rem;
+        left: 62%;
+    }
 }
