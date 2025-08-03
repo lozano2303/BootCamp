@@ -4,14 +4,14 @@ public class CardDTO {
 
     private String img;
     private String cardName;
-    private Short stoke;
+    private Short stroke;
     private Short defense;
     private Short average;
     private Short goals;
     private Short pass;
     private Short price;
 
-    public CardDTO(Short average, String cardName, Short defense, Short goals, String img, Short pass, Short price, Short stoke) {
+    public CardDTO(Short average, String cardName, Short defense, Short goals, String img, Short pass, Short price, Short stroke) {
         this.average = average;
         this.cardName = cardName;
         this.defense = defense;
@@ -19,7 +19,7 @@ public class CardDTO {
         this.img = img;
         this.pass = pass;
         this.price = price;
-        this.stoke = stoke;
+        this.stroke = stroke;
     }
 
     public String getImg() {
@@ -38,12 +38,12 @@ public class CardDTO {
         this.cardName = cardName;
     }
 
-    public Short getStoke() {
-        return stoke;
+    public Short getStroke() {
+        return stroke;
     }
 
-    public void setStoke(Short stoke) {
-        this.stoke = stoke;
+    public void setStroke(Short stroke) {
+        this.stroke = stroke;
     }
 
     public Short getDefense() {

@@ -17,7 +17,7 @@ public class Card {
     @Column(name="img", length=256, nullable=false)
     private String img;
 
-    @Column(name="cardName", length=20, nullable=false)
+    @Column(name="card_name", length=20, nullable=false)
     private String cardName;
 
     @Column(name="stroke", nullable=false)
