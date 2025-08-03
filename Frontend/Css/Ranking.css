@@ -48,3 +48,91 @@ body{
     font-weight: bolder;
 }
 
+
+
+
+
+
+/* Móviles */
+@media (max-width: 600px) {
+    body {
+        background-size: cover;
+        background-attachment: scroll;
+    }
+
+    .rankingJugadores {
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        margin-top: 2%;
+        margin-left: 0;
+        padding: 0 10px;
+    }
+
+    .rankingJugadores section img {
+        width: 100%;
+        height: auto;
+        position: relative;
+        max-width: 350px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    #tituloRanking {
+        width: 110%;
+        height: 150px;
+        position: absolute;
+        top: -4%;
+        left: 57%;
+        transform: translateX(-50%);
+        z-index: 3;
+    }
+
+    .rankingJugadores section h2 {
+        position: absolute;
+        top: 7%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        font-size: 16px;
+        text-align: center;
+        z-index: 4;
+    }
+
+    .ranking {
+        width: 70%;
+        position: absolute;
+        top: 13%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding: 10px;
+    }
+
+     .nombreJugador {
+        display: flex;
+        justify-content: space-between; /* Nombres a la izquierda y puntos a la derecha */
+        align-items: center;
+        gap: 1px;
+        padding: 3px 10px;
+        margin-bottom: 50px;
+    }
+
+    .ranking .nombreJugador h3 {
+        flex: 1;
+        font-size: 17px;
+        color: white;
+        font-weight: bold;
+        margin: 0;
+        white-space: nowrap; /* evita que el nombre se rompa en dos líneas */
+    }
+
+    .ranking .nombreJugador h3:first-child {
+        text-align: left; /* Nombre alineado a la izquierda */
+    }
+
+    .ranking .nombreJugador h3:last-child {
+        text-align: right; /* Puntos alineados a la derecha */
+    }
+}
+
