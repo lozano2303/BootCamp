@@ -1,18 +1,16 @@
 package bootCamp.Backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import bootCamp.Backend.DTO.ResponseDTO;
-import bootCamp.Backend.service.CardService;
 import bootCamp.Backend.DTO.CardDTO;
+import bootCamp.Backend.DTO.ResponseCardDTO;
+import bootCamp.Backend.service.CardService;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-@Controller
+@RestController
 @RequestMapping("/Card")
 public class CardController {
 
@@ -20,12 +18,21 @@ public class CardController {
     private CardService cardService;
 
     @PostMapping("/CreateCard")
-    public ResponseEntity<ResponseDTO> createCard (@RequestBody CardDTO cardDTO) {
+    public ResponseEntity<ResponseDTO> createCard(@RequestBody CardDTO cardDTO) {
         ResponseDTO response = cardService.createCard(cardDTO);
-        if (response.getStatus().equals("OK")) {
+        
+        // Manejo más robusto del estado HTTP
+        if ("OK".equals(response.getStatus())) {
             return ResponseEntity.ok(response);
+        } else if ("NOT_FOUND".equals(response.getStatus())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } else {
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping
+    public ResponseCardDTO<?> getAllCards() {
+        return cardService.getAllCards();
     }
 }

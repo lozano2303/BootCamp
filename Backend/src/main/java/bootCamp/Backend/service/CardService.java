@@ -3,8 +3,10 @@ package bootCamp.Backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import bootCamp.Backend.DTO.CardDTO;
+import bootCamp.Backend.DTO.ResponseCardDTO;
 import bootCamp.Backend.DTO.ResponseDTO;
 import bootCamp.Backend.model.Card;
 import bootCamp.Backend.repository.ICard;
@@ -54,5 +56,31 @@ public class CardService {
         cardRepository.save(card);
 
     return new ResponseDTO(HttpStatus.OK.toString(), "carta creada correctamente");
+    }
+    
+    //traer todas las cartas
+    public ResponseCardDTO<List<Card>> getAllCards() {
+        try {
+            List<Card> cards = cardRepository.findAll();
+            
+            if (cards.isEmpty()) {
+                return new ResponseCardDTO<>(
+                    HttpStatus.NOT_FOUND, 
+                    "No hay cartas disponibles en la base de datos"
+                );
+            }
+            
+            return new ResponseCardDTO<>(
+                HttpStatus.OK,
+                "Lista de cartas obtenida exitosamente",
+                cards
+            );
+            
+        } catch (Exception e) {
+            return new ResponseCardDTO<>(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Error al recuperar las cartas: " + e.getMessage()
+            );
+        }
     }
 }
