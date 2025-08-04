@@ -1,4 +1,4 @@
-package bootCamp.Backend.DTO;
+package bootCamp.Backend.config;
 
 import java.util.Arrays;
 

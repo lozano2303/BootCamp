@@ -1,20 +1,22 @@
 package bootCamp.Backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
-import java.sql.Time;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import bootCamp.Backend.repository.IGame;
+import org.springframework.stereotype.Service;
+
 import bootCamp.Backend.DTO.GameDTO;
 import bootCamp.Backend.DTO.ResponseDTO;
 import bootCamp.Backend.model.Game;
-import bootCamp.Backend.repository.IPlayerGame;
-import bootCamp.Backend.repository.IPlayer;
-import bootCamp.Backend.model.PlayerGame;
 import bootCamp.Backend.model.Player;
-import java.util.Optional;
+import bootCamp.Backend.model.PlayerGame;
+import bootCamp.Backend.repository.IGame;
+import bootCamp.Backend.repository.IPlayer;
+import bootCamp.Backend.repository.IPlayerGame;
 
 @Service
 public class GameService {
@@ -28,7 +30,7 @@ public class GameService {
 
     private final List<Integer> allowedMinutes = Arrays.asList(1,2,3,4,5);
 
-    //crear juego (sin cambios)
+    //crear juego
     public ResponseDTO createGame(GameDTO gameDTO) {
         int cuantityPlayers = gameDTO.getCuantityPlayers();
         Time gameTime = gameDTO.getGameTime();
@@ -55,7 +57,7 @@ public class GameService {
         return new ResponseDTO(HttpStatus.OK.toString(), "Partida creada exitosamente.");
     }
 
-    //establecer ganador (adaptado a los nuevos cambios)
+    //establecer ganador
     public ResponseDTO insertGameWinner(int gameID) {
         //buscar jugadores de la partida ordenados por puntaje
         List<PlayerGame> participants = playerGameRepository.findWinner(gameID);
