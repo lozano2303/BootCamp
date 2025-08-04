@@ -31,7 +31,7 @@ function crearInputsJugadores(cantidad) {
     btnDiv.style.marginTop = "20px";
     btnDiv.innerHTML = `
         <button id="btnJugar" style="
-            background: z#2EEF51;
+            background: #2EEF51;
             color: #222;
             font-weight: bold;
             border: 2px solid #222;
@@ -74,7 +74,14 @@ async function iniciarJuego() {
     }
 
     try {
-        // Paso 1: Crear jugadores
+        // Paso 1: Crear la sala primero
+        const gameDTOs = await crearSala(cantidad);
+        if (!Array.isArray(gameDTOs) || gameDTOs.length === 0 || typeof gameDTOs[0].gameID !== 'number') {
+            throw new Error('No se pudo obtener el ID de la sala');
+        }
+        const gameID = gameDTOs[0].gameID;
+
+        // Paso 2: Crear jugadores
         const playerIds = [];
         for (const nombre of nombres) {
             const player = await crearJugador(nombre);
@@ -85,17 +92,10 @@ async function iniciarJuego() {
             await new Promise(res => setTimeout(res, 200)); // delay opcional
         }
 
-        // Paso 2: Crear sala
-        const gameDTOs = await crearSala(cantidad);
-        if (!Array.isArray(gameDTOs) || gameDTOs.length === 0 || typeof gameDTOs[0].gameID !== 'number') {
-            throw new Error('No se pudo obtener el ID de la sala');
-        }
-        const gameID = gameDTOs[0].gameID;
-
         // Paso 3: Asignar jugadores a la sala
         const respuesta = await asignarJugadoresASala(gameID, playerIds);
 
-        // Guardar en localStorage para usar en Juego.html
+        // Paso 4: Guardar info en localStorage
         localStorage.setItem('gameId', gameID);
         localStorage.setItem('jugadores', JSON.stringify(nombres));
         localStorage.setItem('playerIds', JSON.stringify(playerIds));
@@ -104,9 +104,11 @@ async function iniciarJuego() {
         window.location.href = 'Juego.html';
 
     } catch (err) {
-        console.error(err);
+        console.error('Error en iniciarJuego:', err);
+        alert('Ocurrió un error al iniciar el juego. Revisa la consola.');
     }
 }
+
 async function crearJugador(playerName) {
     try {
         const res = await fetch('http://localhost:8080/Player/CreatePlayer', {
@@ -129,8 +131,6 @@ async function crearJugador(playerName) {
         throw error;
     }
 }
-
-
 
 async function crearSala(cantidad) {
     const gameTime = "00:05:00";
@@ -156,13 +156,12 @@ async function crearSala(cantidad) {
 
     return dto.data;
 }
+
 async function asignarJugadoresASala(gameId, playerIds) {
-    // Validar que gameId sea número
     if (typeof gameId !== 'number' || isNaN(gameId)) {
         throw new Error('gameId inválido para asignar jugadores');
     }
 
-    // Validar que playerIds sea array y solo contenga números
     if (!Array.isArray(playerIds) || playerIds.some(id => typeof id !== 'number')) {
         throw new Error('playerIds debe ser un array de números');
     }
@@ -172,7 +171,7 @@ async function asignarJugadoresASala(gameId, playerIds) {
     const res = await fetch(`http://localhost:8080/playergames/assign/${gameId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(playerIds)  // Esto envía el array [1,2,3] tal cual
+        body: JSON.stringify(playerIds)
     });
 
     if (!res.ok) {

@@ -84,7 +84,7 @@ body {
 /* Inputs jugadores */
 #inputs-jugadores {
     position: absolute;
-    top: 35%; /* Antes estaba en -10%, ahora más arriba */
+    top: 40%; /* Antes estaba en -10%, ahora más arriba */
     left: 50%;
     transform: translateX(-50%);
     width: 105%;

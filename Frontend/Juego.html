@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Fútbol</title>
-    <link rel="stylesheet" href="./Css/juego.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Juego de Cartas de Fútbol</title>
+  <link rel="stylesheet" href="./Css/funcionalida.css" />
 </head>
 <body>
-    <div class="game-container">
-        <div class="player-bar" id="player-bar"></div>
-        <div class="middle-section">
-            <h1 class="game-title">Empieza el juego!</h1>
-            <div class="soccer-ball"></div>
-        </div>
-        <div class="footer-section">
-            </div>
+  <div class="game-container">
+    <header>
+      <h1>Juego de Cartas de Fútbol</h1>
+      <div id="ronda">Ronda 1/8</div>
+      <div id="estadistica"></div>
+    </header>
+
+    <div id="jugadores-info">
+  <div id="player-bar"></div> <!-- <- agregado para que tu función funcione -->
+</div>
+
+
+    <div id="cartas-jugadas"></div>
+
+    <div id="zona-cartas-jugador">
+      <h2>Tu mano</h2>
+      <div id="cartas-jugador"></div>
     </div>
- <script src="./Js/juego.js"></script>
+
+    <div id="ganador-ronda"></div>
+
+    <div id="final" style="display: none;">
+      <h2>Resultados Finales</h2>
+      <ul id="ranking-final"></ul>
+      <button onclick="reiniciarJuego()">Volver a jugar</button>
+    </div>
+  </div>
+  <!-- Botón para avanzar de ronda -->
+<button id="siguiente-ronda" class="boton-siguiente" style="display: none;">Siguiente Ronda</button>
+
+
+  <script src="./Js/cartas.js"></script>
+  <script src="./Js/game.js"></script>
 </body>
 </html>
