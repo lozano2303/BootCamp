@@ -1,4 +1,4 @@
-package bootCamp.Backend.DTO;
+package bootCamp.Backend.config;
 
 import java.util.Arrays;
 
@@ -20,7 +20,8 @@ public class CorsConfig {
         config.setAllowedOrigins(Arrays.asList(
             "http://127.0.0.1:5500",
             "http://localhost:8080",
-            "http://example.com"
+            "http://example.com",
+           "http://127.0.0.1:3000/"
         ));
 
         // Permitir solicitudes con estos métodos HTTP
