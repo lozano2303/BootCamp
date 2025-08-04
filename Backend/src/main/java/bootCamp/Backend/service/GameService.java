@@ -1,6 +1,7 @@
 package bootCamp.Backend.service;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import bootCamp.Backend.DTO.GameDTO;
+import bootCamp.Backend.DTO.GameResponseDTO;
 import bootCamp.Backend.DTO.ResponseDTO;
 import bootCamp.Backend.model.Game;
 import bootCamp.Backend.model.Player;
@@ -30,32 +32,34 @@ public class GameService {
 
     private final List<Integer> allowedMinutes = Arrays.asList(1,2,3,4,5);
 
-    //crear juego
-    public ResponseDTO createGame(GameDTO gameDTO) {
-        int cuantityPlayers = gameDTO.getCuantityPlayers();
-        Time gameTime = gameDTO.getGameTime();
-        
-        if (gameDTO.getCuantityPlayers() < 2 || gameDTO.getCuantityPlayers() > 7) {
-            return new ResponseDTO(HttpStatus.BAD_REQUEST.toString(), "La cantidad de jugadores debe estar entre 2 y 7 jugadores.");
-        }
-        
-        int minutes = gameTime.toLocalTime().getMinute();
-        int hours = gameTime.toLocalTime().getHour();
-        int seconds = gameTime.toLocalTime().getSecond();
-        
-        if (hours != 0 || seconds != 0 || !allowedMinutes.contains(minutes)) {
-            return new ResponseDTO(HttpStatus.BAD_REQUEST.toString(), "El tiempo del juego debe ser entre 1 y 5 minutos.");
-        }
-        
-        Game game = new Game();
-        game.setCuantityPlayers(cuantityPlayers);
-        game.setGameTime(gameTime);
-        game.setWinner(null);
+   public GameResponseDTO createGame(GameDTO gameDTO) {
+    int cuantityPlayers = gameDTO.getCuantityPlayers();
+    Time gameTime = gameDTO.getGameTime();
 
-        gameRepository.save(game);
-
-        return new ResponseDTO(HttpStatus.OK.toString(), "Partida creada exitosamente.");
+    if (cuantityPlayers < 2 || cuantityPlayers > 7) {
+        return new GameResponseDTO(HttpStatus.BAD_REQUEST.toString(), "La cantidad de jugadores debe estar entre 2 y 7 jugadores.");
     }
+
+    int minutes = gameTime.toLocalTime().getMinute();
+    int hours = gameTime.toLocalTime().getHour();
+    int seconds = gameTime.toLocalTime().getSecond();
+
+    if (hours != 0 || seconds != 0 || !allowedMinutes.contains(minutes)) {
+        return new GameResponseDTO(HttpStatus.BAD_REQUEST.toString(), "El tiempo del juego debe ser entre 1 y 5 minutos.");
+    }
+
+    Game game = new Game();
+    game.setCuantityPlayers(cuantityPlayers);
+    game.setGameTime(gameTime);
+    game.setWinner(null);
+
+    gameRepository.save(game);
+
+    List<GameDTO> gameList = new ArrayList<>();
+    gameList.add(new GameDTO(game.getGameID(), game.getCuantityPlayers(), game.getGameTime()));
+    return new GameResponseDTO(HttpStatus.OK.toString(), "Partida creada exitosamente.", gameList);
+}
+
 
     //establecer ganador
     public ResponseDTO insertGameWinner(int gameID) {

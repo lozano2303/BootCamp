@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import bootCamp.Backend.DTO.GameDTO;
+import bootCamp.Backend.DTO.GameResponseDTO;
 import bootCamp.Backend.DTO.ResponseDTO;
 import bootCamp.Backend.service.GameService;
 
@@ -22,13 +23,24 @@ public class GameController {
     private GameService gameService;
 
     // Crear partida
-    @PostMapping("/CreateGame")
-    public ResponseEntity<ResponseDTO> createGame(@RequestBody GameDTO gameDTO) {
-        ResponseDTO response = gameService.createGame(gameDTO);
-        HttpStatus status = response.getStatus().equals(HttpStatus.OK.toString()) 
-                            ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(response, status);
-    }
+@PostMapping("/CreateGame")
+public ResponseEntity<GameResponseDTO> createGame(@RequestBody GameDTO gameDTO) {
+    GameResponseDTO response = gameService.createGame(gameDTO);
+
+    // Debug para ver qué status viene y si data existe
+    System.out.println("Response Status: '" + response.getStatus() + "'");
+    System.out.println("Response Data: " + response.getData());
+
+    boolean isOkStatus = response.getStatus() != null && response.getStatus().startsWith("200");
+    boolean hasData = response.getData() != null && !response.getData().isEmpty();
+
+    HttpStatus httpStatus = (isOkStatus && hasData) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+    return new ResponseEntity<>(response, httpStatus);
+}
+
+
+
 
     // Establecer ganador por gameID
     @PutMapping("/setWinner/{gameID}")

@@ -1,10 +1,10 @@
 package bootCamp.Backend.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 import bootCamp.Backend.model.PlayerGame;
 import bootCamp.Backend.model.ids.Player_GameID;
@@ -22,4 +22,7 @@ public interface IPlayerGame extends JpaRepository<PlayerGame, Player_GameID> {
     // Consulta para el ganador (también usando ID compuesto)
     @Query("SELECT pg FROM PlayerGame pg WHERE pg.id.gameID = :gameId ORDER BY pg.score DESC")
     List<PlayerGame> findWinner(@Param("gameId") int gameId);
+
+
+
 }

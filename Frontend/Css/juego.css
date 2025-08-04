@@ -1,0 +1,157 @@
+/* Estilos base para dispositivos móviles pequeños (hasta 480px) */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    background-image: url('../IMG/FondoJuego.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.player-bar {
+    width: 100%;
+    background-color: rgba(0, 0, 100, 0.7);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 3px;
+    box-sizing: border-box;
+}
+
+.player-slot {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid gold;
+    padding: 3px;
+    margin: 0 1px;
+    border-radius: 5px;
+    text-align: center;
+    flex-grow: 1;
+    cursor: pointer;
+    font-size: 0.6em;
+    white-space: nowrap; /* Evita que el texto se salte de línea */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.middle-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: yellow;
+    font-weight: bold;
+}
+
+.game-title {
+    font-size: 1.5em;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+.soccer-ball {
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+}
+
+
+/* ---------------------------------------------------- */
+/* Dispositivos móviles grandes y tablets pequeñas (481px a 768px) */
+/* ---------------------------------------------------- */
+@media (min-width: 481px) and (max-width: 768px) {
+    .player-bar {
+        padding: 10px 5px;
+    }
+
+    .player-slot {
+        padding: 5px;
+        margin: 0 2px;
+        font-size: 0.8em;
+    }
+
+    .game-title {
+        font-size: 2em;
+    }
+
+    .soccer-ball {
+        width: 100px;
+        height: 100px;
+        bottom: 8%;
+        right: 8%;
+    }
+}
+
+
+/* ---------------------------------------------------- */
+/* Tablets grandes y laptops pequeñas (769px a 1024px) */
+/* ---------------------------------------------------- */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .player-bar {
+        padding: 10px 10px;
+    }
+
+    .player-slot {
+        padding: 5px 8px;
+        margin: 0 4px;
+        font-size: 0.9em;
+    }
+
+    .game-title {
+        font-size: 3em;
+    }
+
+    .soccer-ball {
+        width: 120px;
+        height: 120px;
+        bottom: 10%;
+        right: 12%;
+    }
+}
+
+
+/* --------------------------------------------------- */
+/* Escritorios y pantallas grandes (a partir de 1025px) */
+/* --------------------------------------------------- */
+@media (min-width: 1025px) {
+    .player-bar {
+        padding: 10px 15px;
+    }
+
+    .player-slot {
+        padding: 5px 10px;
+        margin: 0 5px;
+        font-size: 1em;
+    }
+
+    .game-title {
+        font-size: 4.5em;
+    }
+
+    .soccer-ball {
+        width: 150px;
+        height: 150px;
+        bottom: 5%;
+        right: 15%;
+    }
+}

@@ -1,42 +1,37 @@
-// Seleccionar las cartas por clase (no por ID duplicado)
 const cartas = document.querySelectorAll(".carta");
 
 cartas.forEach(carta => {
-    carta.addEventListener('click', function () {
-        let cantidad = parseInt(carta.getAttribute('data-id'));
+    carta.addEventListener('click', () => {
+        const cantidad = parseInt(carta.getAttribute('data-id'), 10);
         localStorage.setItem('cantidadJugadores', cantidad);
         crearInputsJugadores(cantidad);
     });
 });
 
-// Función para crear inputs dinámicos
 function crearInputsJugadores(cantidad) {
-    let container = document.getElementById('inputs-jugadores');
-    if (container) container.remove();
+    const contenedorViejo = document.getElementById('inputs-jugadores');
+    if (contenedorViejo) contenedorViejo.remove();
 
-    container = document.createElement('div');
+    const container = document.createElement('div');
     container.id = 'inputs-jugadores';
 
     for (let i = 1; i <= cantidad; i++) {
         const inputDiv = document.createElement('div');
         inputDiv.className = 'mb-3';
         inputDiv.innerHTML = `
-            <div class="inputLabel">
-                <label for="jugador${i}" class="form-label">Nombre del jugador ${i}:</label>
-                <input type="text" class="form-control" id="jugador${i}" name="jugador${i}">
-            </div>
+            <label for="jugador${i}" class="form-label">Nombre del jugador ${i}:</label>
+            <input type="text" class="form-control" id="jugador${i}" name="jugador${i}" placeholder="Jugador ${i}">
         `;
         container.appendChild(inputDiv);
     }
 
-    // Agrega el botón de Jugar
     const btnDiv = document.createElement('div');
     btnDiv.style.display = "flex";
     btnDiv.style.justifyContent = "center";
     btnDiv.style.marginTop = "20px";
     btnDiv.innerHTML = `
         <button id="btnJugar" style="
-            background: #2EEF51;
+            background: z#2EEF51;
             color: #222;
             font-weight: bold;
             border: 2px solid #222;
@@ -50,20 +45,27 @@ function crearInputsJugadores(cantidad) {
     `;
     container.appendChild(btnDiv);
 
-    document.querySelector('.salaJugadores').appendChild(container);
+    const salaJugadores = document.querySelector('.salaJugadores');
+    salaJugadores.appendChild(container);
 
-    // Asociar evento al botón
     document.getElementById('btnJugar').addEventListener('click', iniciarJuego);
 }
 
-// Función para iniciar el juego
 async function iniciarJuego() {
     const cantidad = parseInt(localStorage.getItem('cantidadJugadores') || '0', 10);
-    const nombres = [];
+    if (cantidad < 2) {
+        alert('Selecciona la cantidad de jugadores primero.');
+        return;
+    }
 
+    const nombres = [];
     for (let i = 1; i <= cantidad; i++) {
         const input = document.getElementById(`jugador${i}`);
-        const nombre = input?.value.trim();
+        if (!input) {
+            alert(`No se encontró el input del jugador ${i}.`);
+            return;
+        }
+        const nombre = input.value.trim();
         if (!nombre) {
             alert(`Por favor ingresa el nombre del jugador ${i}.`);
             return;
@@ -72,34 +74,66 @@ async function iniciarJuego() {
     }
 
     try {
-        const gameData = await crearSala(cantidad);
-        const gameId = gameData.id;
-        console.log('Partida creada, ID =', gameId);
-
+        // Paso 1: Crear jugadores
         const playerIds = [];
         for (const nombre of nombres) {
             const player = await crearJugador(nombre);
-            playerIds.push(player.id);
+            if (!player || typeof player.playerID !== 'number') {
+                throw new Error(`No se pudo crear el jugador ${nombre}`);
+            }
+            playerIds.push(player.playerID);
+            await new Promise(res => setTimeout(res, 200)); // delay opcional
         }
 
-        const respuesta = await asignarJugadoresASala(gameId, playerIds);
-        console.log("Jugadores asignados:", respuesta.data);
+        // Paso 2: Crear sala
+        const gameDTOs = await crearSala(cantidad);
+        if (!Array.isArray(gameDTOs) || gameDTOs.length === 0 || typeof gameDTOs[0].gameID !== 'number') {
+            throw new Error('No se pudo obtener el ID de la sala');
+        }
+        const gameID = gameDTOs[0].gameID;
 
-        localStorage.setItem('gameId', gameId);
+        // Paso 3: Asignar jugadores a la sala
+        const respuesta = await asignarJugadoresASala(gameID, playerIds);
+
+        // Guardar en localStorage para usar en Juego.html
+        localStorage.setItem('gameId', gameID);
         localStorage.setItem('jugadores', JSON.stringify(nombres));
         localStorage.setItem('playerIds', JSON.stringify(playerIds));
 
+        // Redirigir al juego
         window.location.href = 'Juego.html';
 
     } catch (err) {
         console.error(err);
-        alert(`No se pudo iniciar la partida:\n${err.message}`);
+    }
+}
+async function crearJugador(playerName) {
+    try {
+        const res = await fetch('http://localhost:8080/Player/CreatePlayer', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ playerName })
+        });
+
+        const dto = await res.json();
+        console.log('Respuesta crearJugador:', dto);
+
+        if (!res.ok || !dto.data || typeof dto.data.playerID !== 'number') {
+            throw new Error(dto.message || 'Error al crear jugador');
+        }
+
+        return dto.data;
+
+    } catch (error) {
+        console.error(`Error creando jugador "${playerName}":`, error);
+        throw error;
     }
 }
 
-// Función para crear la sala
+
+
 async function crearSala(cantidad) {
-    const gameTime = "00:5:00"; // Tiempo fijo de 2 minutos (puedes hacerlo dinámico si quieres)
+    const gameTime = "00:05:00";
     const res = await fetch('http://localhost:8080/game/CreateGame', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,67 +143,45 @@ async function crearSala(cantidad) {
         })
     });
 
-    let dto;
-    try {
-        dto = await res.json();
-    } catch {
-        throw new Error(`Respuesta inválida del servidor (no JSON). HTTP ${res.status}`);
-    }
-
     if (!res.ok) {
-        const msg = dto?.message || `Error desconocido al crear la partida`;
-        throw new Error(`HTTP ${res.status}: ${msg}`);
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Error al crear la sala');
     }
 
-    if (!dto.data || typeof dto.data.id !== 'number') {
-        throw new Error(`La respuesta no incluye data.id (payload: ${JSON.stringify(dto)})`);
+    const dto = await res.json();
+
+    if (!Array.isArray(dto.data)) {
+        throw new Error(`Respuesta inválida al crear la sala: ${JSON.stringify(dto)}`);
     }
 
     return dto.data;
 }
-
-// Función para crear un jugador
-async function crearJugador(playerName) {
-    const res = await fetch('http://localhost:8080/Player/CreatePlayer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerName })
-    });
-
-    let data;
-    try {
-        data = await res.json();
-    } catch {
-        throw new Error(`Respuesta inválida al crear jugador ${playerName}`);
-    }
-
-    if (!res.ok) {
-        const msg = data?.message || '';
-        throw new Error(`Error al crear jugador ${playerName}: HTTP ${res.status} ${msg}`);
-    }
-
-    return data;
-}
-
-// Función para asignar jugadores a la sala
 async function asignarJugadoresASala(gameId, playerIds) {
+    // Validar que gameId sea número
+    if (typeof gameId !== 'number' || isNaN(gameId)) {
+        throw new Error('gameId inválido para asignar jugadores');
+    }
+
+    // Validar que playerIds sea array y solo contenga números
+    if (!Array.isArray(playerIds) || playerIds.some(id => typeof id !== 'number')) {
+        throw new Error('playerIds debe ser un array de números');
+    }
+
+    console.log('Asignando jugadores:', playerIds, 'a la sala:', gameId);
+
     const res = await fetch(`http://localhost:8080/playergames/assign/${gameId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(playerIds)
+        body: JSON.stringify(playerIds)  // Esto envía el array [1,2,3] tal cual
     });
 
-    let dto;
-    try {
-        dto = await res.json();
-    } catch {
-        throw new Error(`Respuesta inválida al asignar jugadores a la sala ${gameId}`);
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Error al asignar jugadores');
     }
 
-    if (!res.ok) {
-        const msg = dto?.message || `Error desconocido al asignar jugadores a la sala`;
-        throw new Error(`HTTP ${res.status}: ${msg}`);
-    }
+    const dto = await res.json();
+    console.log('Respuesta backend asignar jugadores:', dto);
 
     return dto;
 }

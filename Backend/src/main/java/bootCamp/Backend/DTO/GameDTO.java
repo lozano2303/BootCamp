@@ -4,12 +4,22 @@ import java.sql.Time;
 
 public class GameDTO {
 
+    private int GameID;
     private int cuantityPlayers;
     private Time gameTime;
 
-    public GameDTO(int cuantityPlayers, Time gameTime) {
+    public GameDTO(int GameID, int cuantityPlayers, Time gameTime) {
+        this.GameID = GameID;
         this.cuantityPlayers = cuantityPlayers;
         this.gameTime = gameTime;
+    }
+
+    public int getGameID() {
+        return GameID;
+    }
+
+    public void setGameID(int GameID) {
+        this.GameID = GameID;
     }
 
     public int getCuantityPlayers() {
@@ -27,4 +37,6 @@ public class GameDTO {
     public void setGameTime(Time gameTime) {
         this.gameTime = gameTime;
     }
+
+    
 }

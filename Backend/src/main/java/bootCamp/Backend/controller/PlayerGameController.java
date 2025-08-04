@@ -28,4 +28,9 @@ public class PlayerGameController {
             @RequestBody Map<Integer, Integer> playerScores) {
         return playerGameService.updatePlayerScores(gameId, playerScores);
     }
+    @GetMapping("/list/{gameId}")
+public List<Map<String, Object>> getPlayersByGame(@PathVariable int gameId) {
+    return playerGameService.getPlayersByGame(gameId);
+}
+
 }
